@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <link rel="stylesheet" href="styles/sidebar.css"> <!-- Link to your sidebar CSS -->
+  <style>
+    /* Body styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('../assets/background.jpg');
+      /* Path to your image */
+      background-size: cover;
+      background-position: center;
+      min-height: 100vh;
+      /* Set the minimum height to cover the viewport */
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Sidebar styles */
+    .sidebar {
+      height: 100%;
+      width: 200px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #f0f0f0;
+      padding-top: 10px;
+    }
+
+    /* Style for the links inside the sidebar */
+    .sidebar a {
+      text-decoration: none;
+      color: #333;
+      display: block;
+      padding: 10px 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Hover effect for sidebar links */
+    .sidebar a:hover {
+      background-color: #ddd;
+    }
+
+    .sidebar-logo {
+      width: 100px;
+      /* Définissez la largeur souhaitée */
+      height: auto;
+      /* La hauteur s'ajustera automatiquement pour maintenir les proportions de l'image */
+      display: block;
+      /* Assurez-vous que l'image est affichée comme un bloc */
+      margin: 0 auto;
+      margin-bottom: 100px;
+      /* Centrez l'image horizontalement */
+      padding: 10px;
+      /* Ajoutez un peu d'espace autour de l'image si nécessaire */
+    }
+
+    /* Content styles */
+    .content {
+      margin-right: 220px;
+      margin-left: 300px;
+      /* Pour laisser de l'espace à la barre latérale */
+      margin-top: 220px;
+    }
+
+    .welcome-card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      /* To center the text */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <img src="./assets/ensaj.png" alt="" class="sidebar-logo">
+    <a href="home.html"><i class="fas fa-home"></i> Home</a>
+    <a href="dashboards.html"><i class="fas fa-chart-bar"></i> Dashboard</a>
+    <a href="absences.html"><i class="fas fa-calendar-alt"></i> Absences</a>
+    <a href="./index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+
+
+  <!-- Content Section -->
+  <div class="content">
+    <div class="welcome-card">
+      <h2>You're connected as Admin</h2>
+      <p>Welcome to our platform! We're excited to have you here.</p>
+    </div>
+  </div>
+</body>
+
+</html>

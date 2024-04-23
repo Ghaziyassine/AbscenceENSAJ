@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Display Data</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <link rel="stylesheet" href="styles/header.css">
+</head>
+<style>
+ 
+  /* Sidebar styles */
+  .sidebar {
+    font-family: Arial, sans-serif;
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #f0f0f0;
+    padding-top: 10px;
+  }
+
+  /* Style for the links inside the sidebar */
+  .sidebar a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+  }
+
+  /* Hover effect for sidebar links */
+  .sidebar a:hover {
+    background-color: #ddd;
+  }
+
+  .sidebar-logo {
+    width: 100px;
+    /* Définissez la largeur souhaitée */
+    height: auto;
+    /* La hauteur s'ajustera automatiquement pour maintenir les proportions de l'image */
+    display: block;
+    /* Assurez-vous que l'image est affichée comme un bloc */
+    margin: 0 auto;
+    margin-bottom: 100px;
+    /* Centrez l'image horizontalement */
+    padding: 10px;
+    /* Ajoutez un peu d'espace autour de l'image si nécessaire */
+  }
+
+  /* Style for the main container (assuming it's a div with class "container") */
+  .container {
+    max-width: 1200px;
+    padding: 20px;
+    margin-left: 180px  ;
+  }
+
+  /* Style for the h1 heading */
+  h1 {
+    font-size: 32px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+  }
+
+
+  /* Style for the label */
+  label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  /* Style for the filter select */
+  .filter {
+    padding: 8px;
+    font-size: 16px;
+    width: 600px;
+    margin-bottom: 20px;
+  }
+
+  /* Style for the data table */
+  #data-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  /* Style for table header */
+  #data-table th {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+
+  /* Style for table cells */
+  #data-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+  }
+
+  /* Alternate row background color */
+  #data-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  /* Style for the "Total Absences" column */
+  #data-table td:nth-child(10) {
+    font-weight: bold;
+  }
+
+  /* Style for the "Statut" column */
+  #data-table td:nth-child(11) {
+    color: #007bff;
+    /* Example color for status */
+  }
+
+  /* Style for the "Most Absent Module" column */
+  #data-table td:nth-child(12) {
+    font-style: italic;
+  }
+
+  /* Hover effect for table rows */
+  #data-table tr:hover {
+    background-color: #f0f0f0;
+  }
+</style>
+
+<body>
+  <div class="sidebar">
+    <img src="./assets/ensaj.png" alt="" class="sidebar-logo">
+    <a href="home.html"><i class="fas fa-home"></i> Home</a>
+    <a href="dashboards.html"><i class="fas fa-chart-bar"></i> Dashboard</a>
+    <a href="absences.html"><i class="fas fa-calendar-alt"></i> Absences</a>
+    <a href="./index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+  <div class="container">
+    <h1>List des abscences</h1>
+
+    <!-- Filter Select for Statut -->
+    <label for="filter-select">Filtrer:</label>
+    <select id="filter-select" class="filter">
+      <option value="all">Tout</option>
+      <option value="Avertissement">Filtrer par Avertissement</option>
+      <option value="rattrapage">Filtrer par Rattrapage</option>
+    </select>
+
+    <table id="data-table" border="1">
+      <tr>
+        <th>Student</th>
+        <th>Théorie du codage correcteur</th>
+        <th>Principe et applications des communications sans fil</th>
+        <th> Systèmes embarqués et VHDL</th>
+        <th>Sécurité des réseaux et Dévelopt. multiplateformes </th>
+        <th>Ingénierie des réseaux et Informatique de l’entreprise</th>
+        <th> Gestion et analyse de projet</th>
+        <th>Outils aide à la décision</th>
+        <th>techniques de créativité </th>
+        <th>Total Absences</th> <!-- Added total absences column -->
+        <th>Statut</th> <!-- Combined status column -->
+        <th>Most Absent Module</th> <!-- Added most absent module column -->
+      </tr>
+    </table>
+  </div>
+  <script>
+    function fetchDataAndDisplay() {
+      fetch('https://script.google.com/macros/s/AKfycby0SQpS0eRB5MvE3rJIPJfPfPscWOQ4BcGs5hSx2xL0zv68oQ8QtuHYxiBlbnzJ8r0x/exec?webAppAffichage=true')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log(data);
+
+          var table = document.getElementById('data-table');
+          table.innerHTML = '<tr><th>Student</th><th>Théorie du codage correcteur</th><th>Principe et applications des communications sans fil</th><th> Systèmes embarqués et VHDL</th><th>Sécurité des réseaux et Dévelopt. multiplateformes </th><th>Ingénierie des réseaux et Informatique de l’entreprise</th><th> Gestion et analyse de projet</th><th>Outils aide à la décision</th><th>techniques de créativité </th><th>Total Absences</th><th>Statut</th><th>Most Absent Module</th></tr>';
+
+          // Filter Select Element
+          var filterSelect = document.getElementById('filter-select');
+
+          // Event listener for filtering
+          filterSelect.addEventListener('change', () => {
+            filterData(filterSelect.value);
+          });
+
+          function filterData(filterValue) {
+            for (var i = 1; i < table.rows.length; i++) {
+              var row = table.rows[i];
+              var statusCell = row.cells[10]; // Status column
+
+              if (filterValue === 'all') {
+                row.style.display = ''; // Show row if filter is All
+              } else if (filterValue === 'Avertissement' && statusCell.textContent === 'Avertissement') {
+                row.style.display = ''; // Show row if it has Avertissement
+              } else if (filterValue === 'rattrapage' && (statusCell.textContent === 'Rattrapage' || statusCell.textContent === 'Exclu de la session normale')) {
+                row.style.display = ''; // Show row if it has Rattrapage or Exclusion
+              } else {
+                row.style.display = 'none'; // Hide row if it doesn't match the filter
+              }
+            }
+          }
+
+          // Add new data to the table
+          for (var student in data.totalAbsencesPerStudent) {
+            var row = table.insertRow();
+            row.insertCell().textContent = student;
+            var absences = data.totalAbsencesPerStudent[student].absencesPerModule;
+            var totalAbsences = data.totalAbsencesPerStudent[student].totalAbsences;
+            for (var i = 0; i < absences.length; i++) {
+              row.insertCell().textContent = absences[i];
+            }
+            // Add total absences
+            row.insertCell().textContent = totalAbsences;
+
+            // Add status (Avertissement, Rattrapage, Exclusion)
+            var statusCell = row.insertCell();
+            if (totalAbsences > 14) {
+              statusCell.textContent = 'Exclu de la session normale';
+              statusCell.style.color = 'red'; // Set exclusion cell color
+            } else if (totalAbsences > 6) {
+              statusCell.textContent = 'Rattrapage';
+              statusCell.style.color = 'red'; // Set rattrapage cell color
+            } else if (totalAbsences > 3) {
+              statusCell.textContent = 'Avertissement';
+              statusCell.style.color = 'orange'; // Set Avertissement cell color
+            }
+
+            // Find the most absent module
+            var mostAbsentModule = '';
+            var mostAbsences = 0;
+            var moduleLabels = ['Théorie du codage correcteur', 'Principe et applications des communications sans fil', ' Systèmes embarqués et VHDL', 'Sécurité des réseaux et Dévelopt. multiplateformes ', 'Ingénierie des réseaux et Informatique de l’entreprise', ' Gestion et analyse de projet', 'Outils aide à la décision', 'techniques de créativité '];
+            for (var j = 0; j < absences.length; j++) {
+              if (absences[j] > mostAbsences) {
+                mostAbsences = absences[j];
+                mostAbsentModule = moduleLabels[j];
+              }
+            }
+            // Add most absent module
+            var moduleCell = row.insertCell();
+            moduleCell.textContent = mostAbsentModule;
+            if (totalAbsences > 14) {
+              moduleCell.style.color = 'red'; // Set most absent module cell color for exclusion
+            } else if (totalAbsences > 6) {
+              moduleCell.style.color = 'red'; // Set most absent module cell color for rattrapage
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          var table = document.getElementById('data-table');
+          table.innerHTML = '<tr><td colspan="12">Error fetching data. Please try again later.</td></tr>';
+        });
+    }
+
+    // Fetch data on page load
+    fetchDataAndDisplay();
+  </script>
+</body>
+
+</html>

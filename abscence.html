@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique des Absences</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url('../assets/background.jpg');
+        /* Path to your image */
+        background-size: cover;
+        background-position: center;
+        min-height: 100vh;
+        /* Set the minimum height to cover the viewport */
+        display: flex;
+        align-items: center;
+        /* Centrer verticalement */
+        justify-content: center;
+        /* Centrer horizontalement */
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    form {
+        max-width: 400px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    #absenceHistory {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #absenceHistory h2 {
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    #absenceHistory table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    #absenceHistory th,
+    #absenceHistory td {
+        padding: 8px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    #absenceHistory th {
+        background-color: #f2f2f2;
+    }
+
+    /* Sidebar styles */
+    .sidebar {
+        height: 100%;
+        width: 200px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #f0f0f0;
+        padding-top: 10px;
+    }
+
+    /* Style for the links inside the sidebar */
+    .sidebar a {
+        text-decoration: none;
+        color: #333;
+        display: block;
+        padding: 10px 20px;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Hover effect for sidebar links */
+    .sidebar a:hover {
+        background-color: #ddd;
+    }
+
+    .sidebar-logo {
+        width: 100px;
+        /* Définissez la largeur souhaitée */
+        height: auto;
+        /* La hauteur s'ajustera automatiquement pour maintenir les proportions de l'image */
+        display: block;
+        /* Assurez-vous que l'image est affichée comme un bloc */
+        margin: 0 auto;
+        margin-bottom: 20px;
+        /* Centrez l'image horizontalement */
+        padding: 10px;
+        /* Ajoutez un peu d'espace autour de l'image si nécessaire */
+    }
+</style>
+
+<body>
+    <div class="sidebar">
+        <img src="./assets/ensaj.png" alt="" class="sidebar-logo">
+        <a href="ehome.html"><i class="fas fa-home"></i> Home</a>
+        <a href="abscence.html"><i class="fas fa-calendar-alt"></i> Absences</a>
+        <a href="./index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <div style="text-align: center;">
+        <h1 id="titre">Historique des Absences</h1>
+
+        <!-- Formulaire de saisie du nom et prénom de l'étudiant -->
+        <form id="absenceForm" style="display:none;">
+            <label for="lastName">Nom :</label>
+            <input type="text" id="lastName" name="lastName" required>
+            <label for="firstName">Prénom :</label>
+            <input type="text" id="firstName" name="firstName" required>
+            <button type="submit">Voir l'historique des absences</button>
+        </form>
+
+        <!-- Conteneur pour afficher l'historique des absences -->
+        <div id="absenceHistory"></div>
+    </div>
+
+    <script>
+        // Déclarer une variable pour suivre si des absences ont été récupérées ou non
+        var absencesRecuperees = false;
+
+        // Afficher "AUCUNE ABSENCE" avant d'envoyer la requête pour récupérer les données d'absences
+        var historyContainer = document.getElementById('absenceHistory');
+        historyContainer.innerHTML = '<p>AUCUNE ABSENCE</p>';
+
+        // Fonction pour récupérer les données d'absences en fonction du nom et prénom de l'étudiant
+        function fetchAbsenceHistory(firstName, lastName) {
+            var studentName = lastName + '_' + firstName; // Concaténer le prénom et le nom pour former le nom complet
+            var apiUrl = 'https://script.google.com/macros/s/AKfycbxppvLIzg7AfQUvcVeOi5aPQyO3bzQJy_ck2DAo5otKkwhFI4RejS6XLE1txFnG3pij/exec?justif=true&nom=' + studentName;
+
+            // Requête GET pour récupérer les données d'absences
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Mettre à jour la variable pour indiquer que des absences ont été récupérées
+                    absencesRecuperees = true;
+
+                    // Si aucune absence n'est récupérée, afficher le message "AUCUNE ABSENCE"
+                    if (data.j.length === 0 && data.nj.length === 0) {
+                        historyContainer.innerHTML = '<p>AUCUNE ABSENCE</p>';
+                        return;
+                    }
+
+                    // Construire et afficher l'historique des absences
+                    historyContainer.innerHTML = '';
+
+                    // Créer le tableau des absences
+                    var table = document.createElement('table');
+                    var thead = document.createElement('thead');
+                    var tbody = document.createElement('tbody');
+
+                    // Créer les lignes d'en-tête du tableau
+                    var headerRow = document.createElement('tr');
+                    var headers = ['Date', 'Heure', 'Module', 'Justifiée'];
+                    headers.forEach(headerText => {
+                        var th = document.createElement('th');
+                        th.textContent = headerText;
+                        headerRow.appendChild(th);
+                    });
+                    thead.appendChild(headerRow);
+
+                    // Parcourir les absences justifiées
+                    data.j.forEach(absence => {
+                        var tr = document.createElement('tr');
+                        var tdDate = document.createElement('td');
+                        // Convertir la date au format souhaité
+                        var formattedDate = new Date(absence.date).toISOString().split('T')[0];
+                        tdDate.textContent = formattedDate;
+                        var tdHeure = document.createElement('td');
+                        tdHeure.textContent = absence.heure;
+                        var tdModule = document.createElement('td');
+                        tdModule.textContent = absence.module;
+                        var tdJustifiee = document.createElement('td');
+                        tdJustifiee.textContent = 'Oui';
+                        tr.appendChild(tdDate);
+                        tr.appendChild(tdHeure);
+                        tr.appendChild(tdModule);
+                        tr.appendChild(tdJustifiee);
+                        tbody.appendChild(tr);
+                    });
+
+                    // Parcourir les absences non justifiées
+                    data.nj.forEach(absence => {
+                        var tr = document.createElement('tr');
+                        var tdDate = document.createElement('td');
+                        // Convertir la date au format souhaité
+                        var formattedDate = new Date(absence.date).toISOString().split('T')[0];
+                        tdDate.textContent = formattedDate;
+                        var tdHeure = document.createElement('td');
+                        tdHeure.textContent = absence.heure;
+                        var tdModule = document.createElement('td');
+                        tdModule.textContent = absence.module;
+                        var tdJustifiee = document.createElement('td');
+                        tdJustifiee.textContent = 'Non';
+                        tr.appendChild(tdDate);
+                        tr.appendChild(tdHeure);
+                        tr.appendChild(tdModule);
+                        tr.appendChild(tdJustifiee);
+                        tbody.appendChild(tr);
+                    });
+
+                    // Ajouter les lignes de données au tableau
+                    table.appendChild(thead);
+                    table.appendChild(tbody);
+                    historyContainer.appendChild(table);
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération de l\'historique des absences :', error);
+                });
+        }
+
+        // Vérifier si les informations de session sont disponibles
+        var username = sessionStorage.getItem("username");
+        if (username) {
+            // Si les informations de session sont disponibles, cacher le formulaire et afficher l'historique des absences
+            document.getElementById('absenceForm').style.display = 'none';
+            fetchAbsenceHistory(username.split('_')[0], username.split('_')[1]); // Appeler la fonction pour récupérer l'historique des absences
+        } else {
+            // Si les informations de session ne sont pas disponibles, rediriger vers la page de login
+            window.location.href = "/login.html";
+        }
+
+        // Récupérer le nom complet depuis la session
+        var fullName = sessionStorage.getItem("username");
+
+        // Séparer le nom complet en nom et prénom
+        var nameParts = fullName.split("_");
+        var lastName = nameParts[0];
+        var firstName = nameParts[1];
+
+        // Mettre à jour le message de bienvenue avec le nom et le prénom
+        var welcomeMessage = document.getElementById("titre");
+        welcomeMessage.textContent = "Historique des Absences pour " + firstName + " " + lastName + "   ";
+
+    </script>
+</body>
+
+</html>

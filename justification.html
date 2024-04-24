@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justification d'Absence</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* Body styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('./assets/background.jpg');
+            /* Path to your image */
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            /* Set the minimum height to cover the viewport */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            height: 100%;
+            width: 200px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f0f0f0;
+            padding-top: 10px;
+        }
+
+        /* Style for the links inside the sidebar */
+        .sidebar a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect for sidebar links */
+        .sidebar a:hover {
+            background-color: #ddd;
+        }
+
+        .sidebar-logo {
+            width: 100px;
+            /* Définissez la largeur souhaitée */
+            height: auto;
+            /* La hauteur s'ajustera automatiquement pour maintenir les proportions de l'image */
+            display: block;
+            /* Assurez-vous que l'image est affichée comme un bloc */
+            margin: 0 auto;
+            margin-bottom: 20px;
+            /* Centrez l'image horizontalement */
+            padding: 10px;
+            /* Ajoutez un peu d'espace autour de l'image si nécessaire */
+        }
+
+        /* Content styles */
+        .content {
+            margin-right: 220px;
+            margin-left: 300px;
+            /* Pour laisser de l'espace à la barre latérale */
+            margin-top: 50px;
+        }
+
+        .justify-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .justify-form label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .justify-form input[type="date"],
+        .justify-form input[type="number"],
+        .justify-form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .justify-form button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .justify-form button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Message styles */
+        #submit-message {
+            display: none;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <img src="./assets/ensaj.png" alt="" class="sidebar-logo">
+        <a href="ehome.html"><i class="fas fa-home"></i> Home</a>
+        <a href="abscence.html"><i class="fas fa-calendar-alt"></i> Absences</a>
+        <a href="justification.html"><i class="fas fa-table"></i> Justification</a>
+        <a href="./index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content">
+        <div class="justify-form">
+            <h2>Justification d'Absence</h2>
+            <form id="justification-form">
+                <label for="start-date">Date de début d'absence :</label>
+                <input type="date" id="start-date" name="start-date" required>
+
+                <label for="num-days">Nombre de jours d'absence :</label>
+                <input type="number" id="num-days" name="num-days" required>
+
+                <label for="justification-file">Justificatif d'absence :</label>
+                <input type="text" id="justification-file" name="justification-file" required>
+
+                <button type="submit">Soumettre</button>
+            </form>
+            <div id="submit-message">Formulaire envoyé avec succès!</div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour soumettre le formulaire de justification d'absence
+        document.getElementById("justification-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Empêcher la soumission par défaut du formulaire
+            var formData = new FormData(this);
+
+            // Récupérer les valeurs du formulaire
+            var date_debut = formData.get("start-date");
+            var nombre_jours = formData.get("num-days");
+            var justificatif = formData.get("justification-file");
+
+            // Afficher les valeurs dans la console
+            console.log("Date de début d'absence:", date_debut);
+            console.log("Nombre de jours d'absence:", nombre_jours);
+            console.log("Justificatif d'absence:", justificatif);
+
+            // Afficher le message de succès
+            document.getElementById("submit-message").style.display = "block";
+
+            // Vous pouvez maintenant envoyer ces données à votre serveur pour traitement
+            // avec une requête AJAX par exemple
+
+            // Récupérer le nom complet depuis la session
+            var fullName = sessionStorage.getItem("username");
+
+            // Séparer le nom complet en nom et prénom
+            var nameParts = fullName.split("_");
+            var lastName = nameParts[0];
+            var firstName = nameParts[1];
+            var studentName = firstName + '_' +  lastName;
+            console.log( "Historique des Absences pour " + studentName);
+
+        fetch("https://script.google.com/macros/s/AKfycbxppvLIzg7AfQUvcVeOi5aPQyO3bzQJy_ck2DAo5otKkwhFI4RejS6XLE1txFnG3pij/exec?demande=true&nomc="+studentName+"&date_debut="+date_debut+"&nombre_jours="+nombre_jours+"&justificatif="+justificatif);
+        });
+    </script>
+</body>
+
+</html>

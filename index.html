@@ -8,9 +8,16 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            background-image: url('./assets/background.jpg');
+            /* Path to your image */
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            /* Set the minimum height to cover the viewport */
+            display: flex;
+            flex-direction: column;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -92,7 +99,7 @@
             var username = document.getElementById("username").value;
             var password = document.getElementById("password").value;
             // Vérifier les identifiants (simulation pour démo)
-            if (username === "admin"  && password === "admin123") {
+            if (username === "admin" && password === "admin123") {
                 // Stocker les informations de session
                 sessionStorage.setItem("username", "admin");
                 // Rediriger vers la page des absences

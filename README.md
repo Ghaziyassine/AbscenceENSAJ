@@ -17,6 +17,10 @@ En résumé, notre projet offre une approche novatrice et intégrée pour simpli
 # Application Mobile
 
 
+https://github.com/Ghaziyassine/AbsenceENSAJ/assets/114885285/366da508-399e-4340-9a7b-6a99b1a3657f
+
+
+
 # Plateforme WEB
 
 
